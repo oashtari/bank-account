@@ -20,14 +20,14 @@ Account.prototype.newTotal = function (lastDeposit) {
   this.total += lastDeposit;
 }
 
-Account.prototype.newTotal = function (lastWithdrawal) {
+Account.prototype.newSmallerTotal = function (lastWithdrawal) {
   this.total -= lastWithdrawal;
 }
 
 // FRONT END
 $(document).ready(function(){
   $("form#new-account").submit(function(event) {
-    // alert("hi");
+
     event.preventDefault();
 
     firstName = $("input#new-first-name").val();
@@ -53,7 +53,9 @@ $(document).ready(function(){
       event.preventDefault();
 
       var lastDeposit = parseInt($("input#new-deposit").val());
+
       newAccount.newTotal(lastDeposit);
+
       $(".accountTotal").text("$" + newAccount.total + " in total");
 
       $("input#new-deposit").val("")
@@ -62,10 +64,14 @@ $(document).ready(function(){
 // WITHDRAWAL
     $("form#withdrawal").submit(function(event) {
       event.preventDefault();
-      newAccount.newTotal(lastWithdrawal);
+
       var lastWithdrawal = parseInt($("input#new-withdrawal").val());
 
+      newAccount.newSmallerTotal(lastWithdrawal);
+
       $(".accountTotal").text("$" + newAccount.total + " in total");
+
+      $("input#new-withdrawal").val("")
   })
 })
 })
