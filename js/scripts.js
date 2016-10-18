@@ -16,8 +16,12 @@ function Account(firstName, lastName, streetAddress, city, state, deposit) {
   this.total = deposit;
 }
 
-Account.prototype.newTotal = function () {
-  return parseInt(total = (this.total + lastDeposit));
+Account.prototype.newTotal = function (lastDeposit) {
+  this.total += lastDeposit;
+}
+
+Account.prototype.newTotal = function (lastWithdrawal) {
+  this.total -= lastWithdrawal;
 }
 
 // FRONT END
@@ -49,8 +53,8 @@ $(document).ready(function(){
       event.preventDefault();
 
       var lastDeposit = parseInt($("input#new-deposit").val());
-      // newTotal(lastDeposit);
-      $(".accountTotal").text("$" + total + " in total");
+      newAccount.newTotal(lastDeposit);
+      $(".accountTotal").text("$" + newAccount.total + " in total");
 
       $("input#new-deposit").val("")
     })
@@ -58,10 +62,10 @@ $(document).ready(function(){
 // WITHDRAWAL
     $("form#withdrawal").submit(function(event) {
       event.preventDefault();
+      newAccount.newTotal(lastWithdrawal);
+      var lastWithdrawal = parseInt($("input#new-withdrawal").val());
 
-      var lastWithdrawal = -(parseInt($("input#new-withdrawal").val()));
-
-      $(".accountTotal").text("$" + newAccount.deposit + " in total");
+      $(".accountTotal").text("$" + newAccount.total + " in total");
   })
 })
 })
